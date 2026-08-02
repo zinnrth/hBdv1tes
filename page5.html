@@ -186,7 +186,7 @@ body {
   margin-left: auto;
   margin-right: auto;
   height: 90%;
-  top: 5%;
+  top: 0%;
   border-radius: 6px;
   box-shadow: 0 2px 26px rgba(0, 0, 0, 0.12);
   font-family: "Dancing Script", cursive;
@@ -202,38 +202,31 @@ body {
   right: 0;
 }
 
-.words {
+/* Styling baru untuk letter-content agar teks muat ke dalam surat */
+.letter-content {
   position: absolute;
-  left: 10%;
-  width: 80%;
-  height: 14%;
-  /* Light blue highlight instead of pink */
-  background-color: #e6ebf5;
-}
-
-.words.line1 {
-  top: 10%;
-  width: 20%;
-  height: 7%;
-  font-size: 0.7rem;
-}
-
-.words.line2 {
-  top: 30%;
+  top: 2%;
+  left: 5%;
+  width: 90%;
+  height: 96%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  font-size: 1.1rem;
+  font-size: 0.65rem; 
+  gap: 8px;
+  z-index: 2;
 }
 
-.words.line3 {
-  top: 50%;
-  font-size: 1.1rem;
-  text-align: center;
+.letter-content p {
+  margin: 0;
+  line-height: 1.2;
 }
 
-.words.line4 {
-  top: 70%;
-  font-size: 1.1rem;
-  text-align: center;
+.letter-content strong {
+  color: #6b8cce;
+  font-weight: bold;
 }
 
 .open .flap {
@@ -255,7 +248,7 @@ body {
 }
 
 .open .letter {
-  transform: translateY(-100px);
+  transform: translateY(-110px); /* Disesuaikan sedikit agar teks terlihat utuh */
   transition: transform 0.4s 0.6s ease, z-index 0.6s;
   z-index: 2;
 }
@@ -454,10 +447,31 @@ body {
           <div class="front flap"></div>
           <div class="front pocket"></div>
           <div class="letter">
-            <div class="words line1">To: Crush</div>
-            <div class="words line2">Dear crush, you are so beautiful</div>
-            <div class="words line3">That every time i see you</div>
-            <div class="words line4">my world stops,</div>
+            
+            <div class="letter-content">
+                <p>
+                    Happy Birthday, my "<strong>Lover</strong>". May "<strong>Sparks Fly</strong>" on your special day,
+                    and may our "<strong>Love Story</strong>" last for years to come. I hope your smile stays
+                    "<strong>Gorgeous</strong>", and that you live "<strong>Fearless</strong>" while chasing your
+                    "<strong>Wildest Dreams</strong>".
+                </p>
+            
+                <p>
+                    I'll always be "<strong>Enchanted</strong>" by you. You'll forever be the
+                    "<strong>King of My Heart</strong>", my "<strong>Daylight</strong>", and I'll stay by your side
+                    "<strong>Forever &amp; Always</strong>".
+                </p>
+            
+                <p>
+                    "<strong>Today Was a Fairytale</strong>". Happy Birthday, my love. Wishing you happiness,
+                    success, good health, and beautiful memories. I love you today, tomorrow, and
+                    "<strong>Forever &amp; Always</strong>".
+                </p>
+                <p>
+                    
+                </p>
+            </div>
+            
           </div>
           <div class="hearts">
             <div class="heart a1"></div>
