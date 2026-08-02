@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>His Special Day</title>
+    <!-- Import Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+    <!-- AOS CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        /* CSS STYLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            min-height: 100vh;
+            overflow-x: hidden; 
+            overflow-y: auto; 
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: #ffffff;
+            /* Latar belakang gradient asli Anda */
+            background: linear-gradient(rgba(18, 38, 74, 0.7), rgba(18, 38, 74, 0.8)), url('greet1.jpg') no-repeat center center;
+            background-size: cover;
+            background-attachment: fixed; 
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            padding: 20px 0; 
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px; 
+            z-index: 10;
+            position: relative;
+            min-height: 100vh; 
+            justify-content: center; 
+        }
+
+        /* --- CSS SISTEM PARTIKEL BARU --- */
+        .particle-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden; /* Partikel tidak bikin scroll */
+        }
+
+        .particle {
+            position: absolute;
+            opacity: 0;
+            animation-name: shineFade;
+            animation-iteration-count: infinite;
+            pointer-events: none;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        @keyframes shineFade {
+            0% {
+                opacity: 0;
+                transform: scale(0.7) translateY(0);
+            }
+            10% {
+                opacity: 0.1;
+            }
+            30% {
+                opacity: 0.8;
+                transform: scale(1.1) translateY(-10px);
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            }
+            60% {
+                opacity: 0.8;
+            }
+            80% {
+                opacity: 0.1;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.7) translateY(-30px);
+            }
+        }
+        /* --- AKHIR CSS SISTEM PARTIKEL --- */
+
+        /* Header Section */
+        .header {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .top-tag {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            line-height: 1.1;
+            font-style: italic;
+        }
+
+        .subtitle {
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        /* Countdown Timer Section */
+        .countdown-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 8px;
+            flex-wrap: wrap; /* Biar bisa wrap di layar kecil */
+        }
+
+        .time-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .box {
+            width: 65px;
+            height: 65px;
+            background-color: rgba(33, 47, 102, 0.85);
+            border: 1.5px solid #6382c9;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .label {
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .colon {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 15px;
+        }
+
+        /* Footer Section */
+        .footer {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+            margin-top: 10px; /* Kurangi margin */
+        }
+
+        .waiting-text {
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .action-btn {
+            background-color: #dbeaf5;
+            color: #1a365d;
+            border: 2px solid #4274D9;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: not-allowed;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn.active {
+            cursor: pointer;
+            opacity: 1;
+            background-color: #ffffff;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+        }
+
+        .remaining-text {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Penyesuaian responsif untuk layar sangat kecil */
+        @media (max-width: 400px) {
+            .box {
+                width: 55px;
+                height: 55px;
+                font-size: 1.3rem;
+            }
+            .title {
+                font-size: 2.2rem;
+            }
+            .top-tag {
+                font-size: 0.65rem;
+            }
+            .container {
+                gap: 30px;
+                padding: 20px 15px;
+            }
+            .countdown-wrapper {
+                gap: 4px;
+            }
+            .colon {
+                font-size: 1.2rem;
+                margin-top: 12px;
+            }
+        }
+
+        @media (max-width: 350px) {
+            .box {
+                width: 45px;
+                height: 45px;
+                font-size: 1rem;
+            }
+            .title {
+                font-size: 1.8rem;
+            }
+            .container {
+                gap: 20px;
+                padding: 15px 10px;
+            }
+            .countdown-wrapper {
+                gap: 2px;
+            }
+            .colon {
+                font-size: 1rem;
+                margin-top: 10px;
+            }
+            .label {
+                font-size: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Kontainer Partikel Baru -->
+    <div class="particle-container" id="particles"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <p class="top-tag" data-aos="fade-down">☆ MENGHITUNG HARI ☆</p>
+            <h1 class="title" data-aos="fade-right">His Special Day<br>is Coming</h1>
+            <p class="subtitle" data-aos="fade-left">Sesuatu yang indah sedang menunggu untukmu</p>
+        </div>
+
+        <!-- Countdown -->
+        <div class="countdown-wrapper" data-aos="zoom-in">
+            <div class="time-block">
+                <div class="box" id="days">00</div>
+                <span class="label">HARI</span>
+            </div>
+            <div class="colon">:</div>
+            <div class="time-block">
+                <div class="box" id="hours">00</div>
+                <span class="label">JAM</span>
+            </div>
+            <div class="colon">:</div>
+            <div class="time-block">
+                <div class="box" id="minutes">00</div>
+                <span class="label">MENIT</span>
+            </div>
+            <div class="colon">:</div>
+            <div class="time-block">
+                <div class="box" id="seconds">01</div>
+                <span class="label">DETIK</span>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p class="waiting-text" data-aos="fade-right">⏳ Beberapa detik lagi... </p>
+            <button class="action-btn" data-aos="fade-left" id="actionBtn" disabled>TUNGGU SAMPAI WAKTUNYA</button>
+            <p class="remaining-text" data-aos="fade-up">Tersisa <span id="bottom-timer">00:01</span> lagi</p>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // =======================================================
+        // 1. SET TANGGAL ULANG TAHUN DI SINI (Format: YYYY-MM-DDTHH:MM:SS)
+        // =======================================================
+        const targetDate = new Date("2026-09-21T00:00:00").getTime(); 
+
+        // --- JS SISTEM PARTIKEL ---
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 75;
+            const heartUnicode = '&#x2764;';
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.innerHTML = heartUnicode;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                particle.style.left = `${posX}vw`;
+                particle.style.top = `${posY}vh`;
+                const size = 10 + Math.random() * 15;
+                particle.style.fontSize = `${size}px`;
+                const delay = Math.random() * 5;
+                particle.style.animationDelay = `${delay}s`;
+                const duration = 4 + Math.random() * 4;
+                particle.style.animationDuration = `${duration}s`;
+                container.appendChild(particle);
+            }
+        }
+        window.addEventListener('load', createParticles);
+
+        // --- LOGIKA COUNTDOWN ---
+        const timerInterval = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            // 2. LOGIKA KETIKA WAKTU HABIS
+            if (distance <= 0) {
+                clearInterval(timerInterval);
+                // Redirect otomatis ke page 2 ketika countdown selesai
+                window.location.href = 'page2.html'; 
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days.toString().padStart(2, '0');
+            document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
+            document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
+            document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
+
+            // 3. UPDATE TEKS BOTTOM TIMER SECARA DINAMIS
+            let bottomText = "";
+            if (days > 0) bottomText += days + " Hari ";
+            if (hours > 0) bottomText += hours + " Jam ";
+            if (minutes > 0) bottomText += minutes + " Menit ";
+            bottomText += seconds + " Detik";
+            
+            const bottomTimerEl = document.getElementById("bottom-timer");
+            if(bottomTimerEl) bottomTimerEl.innerText = bottomText;
+
+        }, 1000);
+    </script>
+    <script>
+        // --- JS SISTEM PARTIKEL BARU ---
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 75;
+            const heartUnicode = '&#x2764;';
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.innerHTML = heartUnicode;
+
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                particle.style.left = `${posX}vw`;
+                particle.style.top = `${posY}vh`;
+
+                const size = 10 + Math.random() * 15;
+                particle.style.fontSize = `${size}px`;
+
+                const delay = Math.random() * 5;
+                particle.style.animationDelay = `${delay}s`;
+
+                const duration = 4 + Math.random() * 4;
+                particle.style.animationDuration = `${duration}s`;
+
+                container.appendChild(particle);
+            }
+        }
+
+        window.addEventListener('load', createParticles);
+        // --- AKHIR JS SISTEM PARTIKEL ---
+
+    </script>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- GSAP Core -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+    <!-- GSAP ScrollTrigger (untuk animasi saat scroll) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script>
+    // Inisialisasi AOS
+    AOS.init({
+        duration: 1200,
+        easing: 'ease-in-out',
+        once: true,
+        offset: 50 // Kurangi offset agar trigger lebih cepat
+    });
+
+    // Daftarkan plugin GSAP
+    gsap.registerPlugin(ScrollTrigger);
+
+    // PERBAIKAN: Gunakan transform yang lebih aman dan tidak mendorong keluar viewport
+    gsap.from('.countdown-wrapper .time-block', {
+        y: 30, // Kurangi dari 50 ke 30
+        opacity: 0,
+        duration: 0.8, // Kurangi durasi
+        stagger: 0.1,
+        ease: 'back.out(1.7)',
+        delay: 0.3
+    });
+
+    // GSAP: Animasi "pulse" pada detik terakhir
+    gsap.to('#seconds', {
+        scale: 1.08, // Kurangi dari 1.1
+        duration: 0.4,
+        repeat: -1,
+        yoyo: true,
+        ease: 'power1.inOut'
+    });
+
+    // Tambahan: Reset animasi GSAP jika ada masalah layout
+    // Pastikan semua elemen tetap dalam viewport
+    gsap.utils.toArray('.time-block').forEach(el => {
+        el.style.transform = 'none'; // Reset transform
+    });
+    </script>
+</body>
+</html>

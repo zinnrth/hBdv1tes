@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A Letter</title>
+    <!-- Import Google Fonts for Title and Button matching page 5 -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap"
+      rel="stylesheet" />
+    <!-- AOS CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <style>
+/* CSS Variabel untuk memudahkan penyesuaian skala di mobile */
+:root {
+  --scale-factor: 1;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  /* Match background styling with page 5 */
+  background: url('greet2.jpg') no-repeat center center;
+  background-size: cover;
+  background-color: #1c2a63; /* Fallback color from page 5's dark blue tone */
+  font-family: 'Montserrat', sans-serif;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+        /* --- CSS PARTIKEL BINTANG BARU --- */
+        .particle-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Tidak menghalangi interaksi klik */
+            z-index: 1; /* Di atas background, di bawah konten utama */
+        }
+
+        .star {
+            position: absolute;
+            background-color: #ffffff;
+            border-radius: 50%; /* Membuat bentuk bulat */
+            box-shadow: 0 0 12px 4px rgba(255, 255, 255, 0.8); /* Efek bersinar */
+            opacity: 0;
+            animation: twinkle infinite ease-in-out; /* Animasi muncul redup */
+        }
+
+        @keyframes twinkle {
+            0% {
+                opacity: 0;
+                transform: scale(0.1);
+            }
+            50% {
+                opacity: 0.9;
+                transform: scale(0.4); /* Membesar sedikit saat bersinar terang */
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.2);
+            }
+        }
+        /* --- AKHIR CSS PARTIKEL --- */
+
+.container {
+  position: relative;
+  width: 90%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  padding: 20px 0;
+  z-index: 10;
+}
+
+.title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  font-style: italic;
+  text-align: center;
+  letter-spacing: 1px;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 2px 4px rgba(0,0,0,0.3);
+  margin-top: 20px;
+}
+
+.envlope-wrapper {
+  height: 380px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  transform: scale(var(--scale-factor));
+  transform-origin: top center;
+  margin-top: 20px;
+}
+
+#envelope {
+  top: 150px;
+  position: relative;
+  width: 280px;
+  height: 180px;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  /* Changed to match page 5 message card color scheme */
+  background-color: rgba(45, 55, 110, 0.95);
+  border: 1.5px solid #6b8cce;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.front {
+  position: absolute;
+  width: 0;
+  height: 0;
+  z-index: 3;
+}
+
+.flap {
+  border-left: 140px solid transparent;
+  border-right: 140px solid transparent;
+  border-bottom: 82px solid transparent;
+  /* Changed to match envelope color */
+  border-top: 98px solid rgba(45, 55, 110, 0.95);
+  transform-origin: top;
+  pointer-events: none;
+}
+
+/* Adjust pseudo-element to create top border effect on flap */
+.flap::after {
+  content: '';
+  position: absolute;
+  left: -140px;
+  top: -98px;
+  border-left: 140px solid transparent;
+  border-right: 140px solid transparent;
+  border-top: 98px solid #6b8cce;
+  z-index: -1;
+  transform: scaleY(1.02) scaleX(1.01);
+  transform-origin: top;
+}
+
+.pocket {
+  /* Changed to a lighter blue/grey tone complementing the main blue */
+  border-left: 140px solid rgba(60, 75, 130, 0.95);
+  border-right: 140px solid rgba(60, 75, 130, 0.95);
+  border-bottom: 90px solid rgba(55, 65, 120, 0.95);
+  border-top: 90px solid transparent;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+/* Add borders to pocket for styling match */
+.pocket::before {
+  content: '';
+  position: absolute;
+  left: -140px;
+  bottom: -90px;
+  border-left: 140px solid transparent;
+  border-right: 140px solid transparent;
+  border-bottom: 90px solid #6b8cce;
+  z-index: -1;
+  transform: scaleY(1.02) scaleX(1.02);
+  transform-origin: bottom;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.letter {
+  position: relative;
+  /* Keep letter white for readability or change to soft blue tint */
+  background-color: #f8f9fa;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  height: 90%;
+  top: 5%;
+  border-radius: 6px;
+  box-shadow: 0 2px 26px rgba(0, 0, 0, 0.12);
+  font-family: "Dancing Script", cursive;
+  color: #1c2a63; /* Dark text for contrast */
+}
+
+.letter:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.words {
+  position: absolute;
+  left: 10%;
+  width: 80%;
+  height: 14%;
+  /* Light blue highlight instead of pink */
+  background-color: #e6ebf5;
+}
+
+.words.line1 {
+  top: 10%;
+  width: 20%;
+  height: 7%;
+  font-size: 0.7rem;
+}
+
+.words.line2 {
+  top: 30%;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.words.line3 {
+  top: 50%;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.words.line4 {
+  top: 70%;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.open .flap {
+  transform: rotateX(180deg);
+  transition: transform 0.4s ease, z-index 0.6s;
+  z-index: 1;
+}
+
+.close .flap {
+  transform: rotateX(0deg);
+  transition: transform 0.4s 0.6s ease, z-index 1s;
+  z-index: 5;
+}
+
+.close .letter {
+  transform: translateY(0px);
+  transition: transform 0.4s ease, z-index 1s;
+  z-index: 1;
+}
+
+.open .letter {
+  transform: translateY(-100px);
+  transition: transform 0.4s 0.6s ease, z-index 0.6s;
+  z-index: 2;
+}
+
+.hearts {
+  position: absolute;
+  top: 90px;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}
+
+.heart {
+  position: absolute;
+  bottom: 0;
+  right: 10%;
+  pointer-events: none;
+}
+
+.heart:before,
+.heart:after {
+  position: absolute;
+  content: "";
+  left: 50px;
+  top: 0;
+  width: 50px;
+  height: 80px;
+  background: #dc2929;
+  border-radius: 50px 50px 0 0;
+  transform: rotate(-45deg);
+  transform-origin: 0 100%;
+  pointer-events: none;
+  box-shadow: 0 0 10px rgba(255,255,255,0.5);
+}
+
+.heart:after {
+  left: 0;
+  transform: rotate(45deg);
+  transform-origin: 100% 100%;
+}
+
+.close .heart {
+  opacity: 0;
+  -webkit-animation: none;
+  animation: none;
+}
+
+.btn-memories {
+  background-color: transparent;
+  color: #ffffff;
+  border: 1.5px solid #ffffff;
+  padding: 12px 25px;
+  border-radius: 30px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.btn-memories:hover {
+  background-color: #ffffff;
+  color: #1c2a63;
+}
+
+.a1 {
+  left: 20%;
+  transform: scale(0.6);
+  opacity: 1;
+  -webkit-animation: slideUp 4s linear 1, sideSway 2s ease-in-out 4 alternate;
+  -moz-animation: slideUp 4s linear 1, sideSway 2s ease-in-out 4 alternate;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+  -webkit-animation-delay: 0.7s;
+  animation-delay: 0.7s;
+}
+
+.a2 {
+  left: 55%;
+  transform: scale(1);
+  opacity: 1;
+  -webkit-animation: slideUp 5s linear 1, sideSway 4s ease-in-out 2 alternate;
+  -moz-animation: slideUp 5s linear 1, sideSway 4s ease-in-out 2 alternate;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+  -webkit-animation-delay: 0.7s;
+  animation-delay: 0.7s;
+}
+
+.a3 {
+  left: 10%;
+  transform: scale(0.8);
+  opacity: 1;
+  -webkit-animation: slideUp 7s linear 1, sideSway 2s ease-in-out 6 alternate;
+  -moz-animation: slideUp 7s linear 1, sideSway 2s ease-in-out 6 alternate;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+  -webkit-animation-delay: 0.7s;
+  animation-delay: 0.7s;
+}
+
+@-webkit-keyframes slideUp {
+  0% { top: 0; }
+  100% { top: -600px; }
+}
+@keyframes slideUp {
+  0% { top: 0; }
+  100% { top: -600px; }
+}
+@-webkit-keyframes sideSway {
+  0% { margin-left: 0px; }
+  100% { margin-left: 50px; }
+}
+@keyframes sideSway {
+  0% { margin-left: 0px; }
+  100% { margin-left: 50px; }
+}
+
+.reset {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  transform: scale(var(--scale-factor));
+}
+
+.buttons-row {
+  display: flex;
+  gap: 10px;
+}
+
+.reset button.env-btn {
+  font-weight: 800;
+  font-style: normal;
+  transition: all 0.1s linear;
+  -webkit-appearance: none;
+  background-color: transparent;
+  /* Match envelope border color */
+  border: solid 2px #6b8cce;
+  border-radius: 4px;
+  color: #ffffff;
+  display: inline-block;
+  font-size: 14px;
+  text-transform: uppercase;
+  padding: 10px;
+  line-height: 1em;
+  text-decoration: none;
+  min-width: 120px;
+  cursor: pointer;
+}
+
+.reset button.env-btn:hover {
+  background-color: #6b8cce;
+  color: #fff;
+}
+
+/* Media Query untuk Mobile Responsiveness */
+@media screen and (max-width: 480px) {
+  :root {
+    --scale-factor: 0.85; 
+  }
+  
+  .envlope-wrapper {
+    height: 320px;
+  }
+  
+  .title { 
+    font-size: 2.2rem; 
+  }
+}
+
+@media screen and (max-width: 360px) {
+  :root {
+    --scale-factor: 0.75; 
+  }
+}
+    </style>
+  </head>
+  <body>
+    <!-- Kontainer Partikel -->
+    <div class="particle-container" id="particles"></div>
+    <div class="container">
+      <!-- Judul dengan AOS -->
+      <h1 class="title" data-aos="fade-down" data-aos-delay="100">Happy Birthday</h1>
+      
+      <div class="envlope-wrapper">
+        <div id="envelope" class="close">
+          <div class="front flap"></div>
+          <div class="front pocket"></div>
+          <div class="letter">
+            <div class="words line1">To: Crush</div>
+            <div class="words line2">Dear crush, you are so beautiful</div>
+            <div class="words line3">That every time i see you</div>
+            <div class="words line4">my world stops,</div>
+          </div>
+          <div class="hearts">
+            <div class="heart a1"></div>
+            <div class="heart a2"></div>
+            <div class="heart a3"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="reset">
+        <div class="buttons-row">
+          <button id="open" class="env-btn" data-aos="zoom-in">Open</button>
+          <button id="reset-btn" class="env-btn" data-aos="zoom-in">Close</button>
+        </div>
+        <!-- Tombol Aksi dengan AOS -->
+        <button class="btn-memories" id="memoriesBtn" onclick="window.location.href='page6.html'" data-aos="fade-up" data-aos-delay="600">
+            OUR MEMORIES &rarr;
+        </button>
+      </div>
+    </div>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+    // Inisialisasi AOS
+    AOS.init({
+        duration: 1200,
+        easing: 'ease-in-out',
+        once: true,
+        offset: 50
+    });
+
+    $(document).ready(function () {
+      var envelope = $("#envelope");
+      var btn_open = $("#open");
+      var btn_reset = $("#reset-btn");
+
+      envelope.click(function () {
+        openEnvelope();
+      });
+      btn_open.click(function () {
+        openEnvelope();
+      });
+      btn_reset.click(function () {
+        closeEnvelope();
+      });
+
+      function openEnvelope() {
+        envelope.addClass("open").removeClass("close");
+      }
+      function closeEnvelope() {
+        envelope.addClass("close").removeClass("open");
+      }
+    });
+
+       // --- JAVASCRIPT PARTIKEL BINTANG ---
+        function createStars() {
+            const container = document.getElementById('particles');
+            const starCount = 120; // Jumlah partikel bintang agar terlihat banyak dan menyebar
+
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+
+                // Menentukan posisi menyebar secara acak (0 hingga 100%)
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                star.style.left = `${posX}vw`;
+                star.style.top = `${posY}vh`;
+
+                // Ukuran acak yang sangat kecil (bulat kecil 2px - 5px)
+                const size = 2 + Math.random() * 3;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+
+                // Durasi (muncul redup) dan penundaan animasi acak
+                const duration = 2.5 + Math.random() * 4; 
+                star.style.animationDuration = `${duration}s`;
+                const delay = Math.random() * 6;
+                star.style.animationDelay = `${delay}s`;
+
+                container.appendChild(star);
+            }
+        }
+
+        // Panggil fungsi partikel saat halaman dimuat
+        window.addEventListener('load', createStars);
+        // --- AKHIR JAVASCRIPT PARTIKEL ---
+    </script>
+  </body>
+</html>

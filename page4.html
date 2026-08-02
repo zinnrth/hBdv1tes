@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Special Day</title>
+    <!-- Import Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <!-- AOS CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100vh;
+            font-family: 'Montserrat', sans-serif;
+            background: url('greet2.jpg') no-repeat center center;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- CSS PARTIKEL BINTANG BARU --- */
+        .particle-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .star {
+            position: absolute;
+            background-color: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 12px 4px rgba(255, 255, 255, 0.8);
+            opacity: 0;
+            animation: twinkle infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0% {
+                opacity: 0;
+                transform: scale(0.1);
+            }
+            50% {
+                opacity: 0.9;
+                transform: scale(0.4);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.2);
+            }
+        }
+        /* --- AKHIR CSS PARTIKEL --- */
+
+        /* Overlay opsional jika gambar aslinya kurang gelap */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 30, 150, 0.2);
+            z-index: 1;
+        }
+
+        /* Kontainer Utama di Tengah */
+        .content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .subtitle {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            line-height: 1.1;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .description {
+            font-size: 0.8rem;
+            font-weight: 400;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            background-color: transparent;
+            color: #ffffff;
+            border: 1.5px solid #ffffff;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #ffffff;
+            color: #0044cc;
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255,255,255,0.3);
+        }
+
+        /* --- Pengaturan Polaroid --- */
+        .polaroids-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .polaroid {
+            position: absolute;
+            width: 70px;
+            height: 85px;
+            background-color: #ffffff;
+            padding: 4px;
+            padding-bottom: 15px;
+            box-shadow: 2px 5px 15px rgba(0,0,0,0.4);
+            pointer-events: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .polaroid:hover {
+            transform: scale(1.1) !important;
+            z-index: 20;
+        }
+
+        /* Area foto default hitam */
+        .photo-placeholder {
+            width: 100%;
+            height: 100%;
+            background-color: #050505;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Posisi masing-masing polaroid untuk tampilan mobile */
+        /* Kiri Atas */
+        .p1 { top: 12%; left: 8%; transform: rotate(-15deg); }
+        /* Kiri Tengah */
+        .p2 { top: 35%; left: 5%; transform: rotate(-22deg); }
+        /* Kiri Bawah */
+        .p3 { bottom: 18%; left: 5%; transform: rotate(10deg); }
+        
+        /* Kanan Atas */
+        .p4 { top: 15%; right: 8%; transform: rotate(12deg); }
+        /* Kanan Tengah (Agak tumpang tindih) */
+        .p5 { top: 25%; right: 5%; transform: rotate(-8deg); }
+        /* Kanan Bawah */
+        .p6 { bottom: 25%; right: 3%; transform: rotate(-5deg); }
+
+        /* Responsif tambahan untuk layar yang sangat kecil */
+        @media (max-width: 360px) {
+            .title { font-size: 2.8rem; }
+            .polaroid { width: 55px; height: 68px; padding-bottom: 10px; }
+        }
+
+        /* Tambahan animasi untuk AOS */
+        [data-aos] {
+            pointer-events: none;
+        }
+        [data-aos].btn {
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Kontainer Partikel -->
+    <div class="particle-container" id="particles"></div>
+    <div class="overlay"></div>
+
+    <!-- Dekorasi Polaroid -->
+    <div class="polaroids-container">
+        <!-- Tambahkan URL fotomu di dalam src="", contoh: src="fotoku.jpg" -->
+        <div class="polaroid p1"><img src="walv2.jpeg" alt="" class="photo-placeholder"></div>
+        <div class="polaroid p2"><img src="walv1.jpeg" alt="" class="photo-placeholder"></div>
+        <div class="polaroid p3"><img src="walv10.jpeg" alt="" class="photo-placeholder"></div>
+        <div class="polaroid p4"><img src="walv4.jpeg" alt="" class="photo-placeholder"></div>
+        <div class="polaroid p5"><img src="walv3.jpeg" alt="" class="photo-placeholder"></div>
+        <div class="polaroid p6"><img src="walv11.jpeg" alt="" class="photo-placeholder"></div>
+    </div>
+
+    <!-- Konten Tengah -->
+    <div class="content">
+        <p class="subtitle" data-aos="fade-down">☆ A LOVE LETTER FOR YOU ☆</p>
+        <h1 class="title" data-aos="fade-right">Your<br>Special Day</h1>
+        <p class="description" data-aos="fade-left">Created with love, just for you</p>
+        <button class="btn" id="readLetterBtn" data-aos="zoom-in" onclick="window.location.href='page5.html'">☆ READ MY LETTER ☆</button>
+    </div>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        // --- INISIALISASI AOS ---
+        AOS.init({
+            duration: 1200,
+            easing: 'ease-in-out',
+            once: true,
+            offset: 50
+        });
+
+        // --- JAVASCRIPT PARTIKEL BINTANG ---
+        function createStars() {
+            const container = document.getElementById('particles');
+            const starCount = 120;
+
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                star.style.left = `${posX}vw`;
+                star.style.top = `${posY}vh`;
+
+                const size = 2 + Math.random() * 3;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+
+                const duration = 2.5 + Math.random() * 4;
+                star.style.animationDuration = `${duration}s`;
+                const delay = Math.random() * 6;
+                star.style.animationDelay = `${delay}s`;
+
+                container.appendChild(star);
+            }
+        }
+
+        window.addEventListener('load', createStars);
+        // --- AKHIR JAVASCRIPT PARTIKEL ---
+    </script>
+
+</body>
+</html>

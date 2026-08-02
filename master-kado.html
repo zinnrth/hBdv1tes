@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>His Special Gift</title>
+    <!-- Import Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; 
+            background-color: #000; 
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        /* Tombol Play/Pause Musik */
+        #music-controller {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+            padding: 5px 10px;
+            border-radius: 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.65rem;
+            cursor: pointer;
+            border: 1.5px solid rgba(255,255,255,0.6);
+            color: #ffffff;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        #music-controller:hover {
+            background: rgba(255, 255, 255, 0.9);
+            color: #1c2a63;
+        }
+
+        @media (max-width: 400px) {
+            #music-controller {
+                bottom: 15px;
+                right: 15px;
+                font-size: 0.65rem;
+                padding: 8px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. AUDIO PLAYER -->
+    <!-- Ganti 'lagu-romantis.mp3' dengan nama file MP3 kamu di bawah ini -->
+    <audio id="bgMusic" loop autoplay>
+        <source src="Olivia Rodrigo - teenage dream (Official Lyric Video).mp3" type="audio/mpeg">
+        Browser kamu tidak mendukung tag audio.
+    </audio>
+
+    <!-- Tombol kontrol musik (berjaga-jaga jika autoplay diblokir browser) -->
+    <button id="music-controller" onclick="toggleMusic()">❚❚ PLAY MUSIC</button>
+
+    <!-- 2. IFRAME UNTUK MENAMPILKAN PAGE 4, 5, 6, 7, 8, 9 -->
+    <!-- Halaman pertama yang dimuat adalah page4.html -->
+    <iframe src="page4.html" id="contentFrame" name="contentFrame"></iframe>
+
+    <script>
+        const music = document.getElementById("bgMusic");
+        const btn = document.getElementById("music-controller");
+
+        // Fungsi coba mainkan musik otomatis
+        window.addEventListener('load', () => {
+            music.play().then(() => {
+                btn.innerText = "❚❚ MUSIC";
+            }).catch((error) => {
+                // Jika diblokir oleh browser, biarkan user klik tombol play
+                console.log("Autoplay diblokir browser. User harus klik play manual.");
+                btn.innerText = "▶︎ MUSIC";
+            });
+        });
+
+        // Fungsi saat tombol play/pause diklik
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();
+                btn.innerText = "❚❚ MUSIC";
+            } else {
+                music.pause();
+                btn.innerText = "▶︎ MUSIC";
+            }
+        }
+    </script>
+</body>
+</html>
+}

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Memories</title>
+    <!-- Import Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+    <!-- AOS CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            width: 100%;
+            /* min-height 100vh memastikan body bisa memanjang untuk di-scroll */
+            min-height: 100vh; 
+            font-family: 'Montserrat', sans-serif;
+            /* Latar belakang menggunakan gambar yang direferensikan verbatim dan dibuat fixed */
+            background: url('greet2.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+                /* --- CSS PARTIKEL BINTANG BARU --- */
+        .particle-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Tidak menghalangi interaksi klik */
+            z-index: 1; /* Di atas background, di bawah konten utama */
+        }
+
+        .star {
+            position: absolute;
+            background-color: #ffffff;
+            border-radius: 50%; /* Membuat bentuk bulat */
+            box-shadow: 0 0 12px 4px rgba(255, 255, 255, 0.8); /* Efek bersinar */
+            opacity: 0;
+            animation: twinkle infinite ease-in-out; /* Animasi muncul redup */
+        }
+
+        @keyframes twinkle {
+            0% {
+                opacity: 0;
+                transform: scale(0.1);
+            }
+            50% {
+                opacity: 0.9;
+                transform: scale(0.4); /* Membesar sedikit saat bersinar terang */
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.2);
+            }
+        }
+        /* --- AKHIR CSS PARTIKEL --- */
+
+        /* Bagian Header (Judul) */
+        .header {
+            position: relative;
+            z-index: 10; 
+            margin-top: 50px;
+            margin-bottom: 30px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-style: italic;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.7), 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* Area Galeri Polaroid */
+        .gallery-container {
+            position: relative;
+            z-index: 10; 
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            padding: 0 20px;
+            max-width: 450px; /* Lebar maksimal agar tidak terlalu melebar di layar besar */
+            margin-bottom: 40px;
+        }
+
+        /* Desain Polaroid */
+        .polaroid {
+            width: 95px; /* Pas untuk 3 kolom di layar HP rata-rata */
+            background-color: #ffffff;
+            padding: 5px 5px 15px 5px;
+            box-shadow: 2px 5px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, z-index 0.3s ease;
+        }
+
+        /* Membuat foto placeholder berwarna hitam */
+        .photo-placeholder {
+            width: 100%;
+            height: 115px; /* Aspek rasio portrait */
+            background-color: #050505;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Memberikan efek miring (rotasi) acak agar terlihat seperti album scrapbook */
+        .polaroid:nth-child(3n+1) { transform: rotate(-4deg); }
+        .polaroid:nth-child(3n+2) { transform: rotate(3deg); margin-top: 10px;}
+        .polaroid:nth-child(3n+3) { transform: rotate(-2deg); }
+        .polaroid:nth-child(5n) { transform: rotate(5deg); }
+        
+        /* Efek saat polaroid disentuh/di-hover */
+        .polaroid:hover {
+            transform: scale(1.1) rotate(0deg) !important;
+            z-index: 10;
+        }
+
+        /* Tombol Watch Video */
+        .btn-container {
+            margin-bottom: 50px;
+        }
+
+        .btn-video {
+            background-color: transparent;
+            color: #ffffff;
+            border: 1.5px solid #ffffff;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-video:hover {
+            background-color: #ffffff;
+            color: #1c2a63;
+        }
+
+        /* Responsif tambahan untuk HP ukuran kecil (seperti iPhone SE) */
+        @media (max-width: 360px) {
+            .polaroid { width: 85px; }
+            .photo-placeholder { height: 105px; }
+            .title { font-size: 2.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Kontainer Partikel -->
+    <div class="particle-container" id="particles"></div>
+    <!-- Header -->
+    <div class="header">
+        <h1 class="title" data-aos="fade-down" data-aos-delay="100">Our Memories</h1>
+        <p class="subtitle" data-aos="fade-right" data-aos-delay="300">☆ Every moment captured in love ☆</p>
+    </div>
+
+    <!-- Galeri Polaroid (Bisa ditambah terus ke bawah) -->
+    <div class="gallery-container">
+        <!-- Untuk memasang foto nanti, cukup isi atribut src="" -->
+        <div class="polaroid"><img src="walv2.jpeg" alt="" class="photo-placeholder"></div>
+        <div class="polaroid"><img src="walv4.jpeg" alt="" class="photo-placeholder"></div>
+        <div class="polaroid"><img src="walv11.jpeg" alt="" class="photo-placeholder"></div>
+        <div class="polaroid"><img src="walv10.jpeg" alt="" class="photo-placeholder"></div>
+        <div class="polaroid"><img src="walv3.jpeg" alt="" class="photo-placeholder"></div>
+        <div class="polaroid"><img src="walv1.jpeg" alt="" class="photo-placeholder"></div>
+        <div class="polaroid"><img src="walv5.jpeg" alt="" class="photo-placeholder"></div>
+        <div class="polaroid"><img src="walv6.jpeg" alt="" class="photo-placeholder"></div>
+        <div class="polaroid"><img src="walv8.jpeg" alt="" class="photo-placeholder"></div>
+        <div class="polaroid"><img src="walv7.jpeg" alt="" class="photo-placeholder"></div>
+        <div class="polaroid"><img src="walv12.jpeg" alt="" class="photo-placeholder"></div>
+        <div class="polaroid"><img src="walv9.jpeg" alt="" class="photo-placeholder"></div>
+    </div>
+
+    <!-- Tombol Watch Video -->
+    <div class="btn-container">
+        <button class="btn-video" id="watchVideoBtn" data-aos="zoom-in" onclick="window.location.href='page7.html'">☆ WATCH VIDEO ☆</button>
+    </div>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Inisialisasi AOS
+        AOS.init({
+            duration: 1200,
+            easing: 'ease-in-out',
+            once: true,
+            offset: 50
+        });
+
+        // --- JAVASCRIPT PARTIKEL BINTANG ---
+        function createStars() {
+            const container = document.getElementById('particles');
+            const starCount = 120; // Jumlah partikel bintang agar terlihat banyak dan menyebar
+
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+
+                // Menentukan posisi menyebar secara acak (0 hingga 100%)
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                star.style.left = `${posX}vw`;
+                star.style.top = `${posY}vh`;
+
+                // Ukuran acak yang sangat kecil (bulat kecil 2px - 5px)
+                const size = 2 + Math.random() * 3;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+
+                // Durasi (muncul redup) dan penundaan animasi acak
+                const duration = 2.5 + Math.random() * 4; 
+                star.style.animationDuration = `${duration}s`;
+                const delay = Math.random() * 6;
+                star.style.animationDelay = `${delay}s`;
+
+                container.appendChild(star);
+            }
+        }
+
+        // Panggil fungsi partikel saat halaman dimuat
+        window.addEventListener('load', createStars);
+        // --- AKHIR JAVASCRIPT PARTIKEL ---
+    </script>
+
+</body>
+</html>
